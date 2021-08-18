@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Kişisel Sözlük</string>
+    <string name="image">image</string>
+    <string name="english">İngilizce</string>
+    <string name="turkish">Türkçe</string>
+    <string name="first_word">1. Kelime</string>
+    <string name="second_word">2. Kelime</string>
+    <string name="search">Ara</string>
+    <string name="delete">Sil</string>
+    <string name="update">Güncelle</string>
+    <string name="add">Ekle</string>
 </resources>

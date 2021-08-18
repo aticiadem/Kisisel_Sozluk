@@ -2,9 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/action_sil"
-        android:title="Sil" />
+        android:id="@+id/actionDelete"
+        android:title="@string/delete" />
+
     <item
-        android:id="@+id/action_guncelle"
-        android:title="Güncelle" />
+        android:id="@+id/actionUpdate"
+        android:title="@string/update" />
+
 </menu>

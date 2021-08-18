@@ -6,22 +6,22 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/sozluk_card"
+        android:id="@+id/cardViewDictionary"
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/koyuGri">
+            android:background="@color/darkGray">
 
             <TextView
-                android:id="@+id/textViewIngilizce"
+                android:id="@+id/textViewEnglish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:maxLength="15"
-                android:text="İngilizce"
+                android:text="@string/english"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -29,12 +29,12 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textViewTurkce"
+                android:id="@+id/textViewTurkish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="200dp"
                 android:maxLength="15"
-                android:text="Türkçe"
+                android:text="@string/turkish"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -42,14 +42,19 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imageViewNokta"
+                android:id="@+id/imageViewDots"
                 android:layout_width="36dp"
                 android:layout_height="39dp"
                 android:layout_marginEnd="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/nokta" />
+                app:srcCompat="@drawable/three_dots"
+                tools:ignore="VectorDrawableCompat"
+                android:contentDescription="@string/image" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
+
 </LinearLayout>

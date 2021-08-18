@@ -1,6 +1,7 @@
 package com.example.adematici.sozluk
 
 import android.content.ContentValues
+import com.example.adematici.sozluk.model.WordsModel
 
 class Kelimelerdao {
 
@@ -32,31 +33,31 @@ class Kelimelerdao {
         db.close()
     }
 
-    fun tumKelimeler(vt: VeritabaniYardimcisi) : ArrayList<Kelimeler> {
+    fun tumKelimeler(vt: VeritabaniYardimcisi) : ArrayList<WordsModel> {
         val db = vt.writableDatabase
-        val kelimelerListe = ArrayList<Kelimeler>()
+        val kelimelerListe = ArrayList<WordsModel>()
         val c = db.rawQuery("SELECT * FROM kelimeler",null)
 
-        while (c.moveToNext()){
-            val kisi = Kelimeler(c.getInt(c.getColumnIndex("kelime_id")),
+        /*while (c.moveToNext()){
+            val kisi = WordsModel(c.getInt(c.getColumnIndex("kelime_id")),
                 c.getString(c.getColumnIndex("kelime_ingilizce")),
                 c.getString(c.getColumnIndex("kelime_turkce")))
             kelimelerListe.add(kisi)
-        }
+        }*/
         return kelimelerListe
     }
 
-    fun kelimeAra(vt: VeritabaniYardimcisi, aramaKelime: String) : ArrayList<Kelimeler> {
+    fun kelimeAra(vt: VeritabaniYardimcisi, aramaKelime: String) : ArrayList<WordsModel> {
         val db = vt.writableDatabase
-        val kelimelerListe = ArrayList<Kelimeler>()
+        val kelimelerListe = ArrayList<WordsModel>()
         val c = db.rawQuery("SELECT * FROM kelimeler WHERE kelime_ingilizce like '%$aramaKelime%'",null)
 
-        while (c.moveToNext()){
-            val kisi = Kelimeler(c.getInt(c.getColumnIndex("kelime_id")),
+        /*while (c.moveToNext()){
+            val kisi = WordsModel(c.getInt(c.getColumnIndex("kelime_id")),
                 c.getString(c.getColumnIndex("kelime_ingilizce")),
                 c.getString(c.getColumnIndex("kelime_turkce")))
             kelimelerListe.add(kisi)
-        }
+        }*/
         return kelimelerListe
     }
 

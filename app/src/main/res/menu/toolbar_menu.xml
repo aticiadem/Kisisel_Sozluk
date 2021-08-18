@@ -4,9 +4,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/action_ara"
-        android:icon="@drawable/ara"
-        android:title="Ara"
+        android:id="@+id/actionSearch"
+        android:icon="@drawable/search"
+        android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always|collapseActionView" />
+
 </menu>
