@@ -11,7 +11,7 @@ import com.example.adematici.sozluk.databinding.ActivitySplashScreenBinding
 class SplashScreen : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashScreenBinding
-    private val SPLASH_TIME_OUT = 2000
+    private val SPLASH_TIME_OUT = 2000L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +21,7 @@ class SplashScreen : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, MainActivity::class.java))
             finish()
-        }, SPLASH_TIME_OUT.toLong())
+        }, SPLASH_TIME_OUT)
 
     }
 }
