@@ -2,7 +2,7 @@
 - Kişisel olarak kelime kayıtlarınızı yapabilirsiniz.
 - Silme ve güncelleme işlerinizi yapabilirsiniz
 - Tasarımlar ve iconlar hazırdır, kurulum yaparak direkt kullanabilirsiniz.
-- Ayrıca SQLite kullanılarak yapılmıştır.
+- Room kütüphanesi entegre edildi.
 
 ![Ekran Görüntüsü (64)](https://user-images.githubusercontent.com/58858983/94175810-e09f1a80-fe9f-11ea-8200-ebe7e1cbcc3b.png)
 ![Ekran Görüntüsü (61)](https://user-images.githubusercontent.com/58858983/94175816-e268de00-fe9f-11ea-8084-8c49883afd73.png)
