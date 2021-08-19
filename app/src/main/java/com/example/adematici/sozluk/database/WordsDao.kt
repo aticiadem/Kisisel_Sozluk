@@ -18,4 +18,7 @@ interface WordsDao {
     @Delete
     fun deleteWord(word: WordsModel)
 
+    @Query("SELECT * FROM words_table WHERE wordEnglish LIKE :word OR wordTurkish LIKE :word")
+    fun findWord(word: String): List<WordsModel>
+
 }

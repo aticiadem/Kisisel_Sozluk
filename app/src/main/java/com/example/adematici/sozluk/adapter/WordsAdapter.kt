@@ -4,16 +4,21 @@ import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.example.adematici.sozluk.R
+import com.example.adematici.sozluk.database.WordsDatabase
 import com.example.adematici.sozluk.databinding.DictionaryCardLayoutBinding
 import com.example.adematici.sozluk.databinding.WordUpdateDialogBinding
 import com.example.adematici.sozluk.model.WordsModel
 import com.google.android.material.snackbar.Snackbar
 
-class WordsAdapter(private val mContext: Context, private var wordList: ArrayList<WordsModel>
-    ): RecyclerView.Adapter<WordsAdapter.CardViewHolder>() {
+class WordsAdapter(private val mContext: Context): RecyclerView.Adapter<WordsAdapter.CardViewHolder>() {
+
+    private var wordList = emptyList<WordsModel>()
+
+    private val wordsDatabase = WordsDatabase.getDatabase(mContext)!!
 
     inner class CardViewHolder(val itemBinding: DictionaryCardLayoutBinding)
         : RecyclerView.ViewHolder(itemBinding.root)
@@ -38,18 +43,16 @@ class WordsAdapter(private val mContext: Context, private var wordList: ArrayLis
                             "${currentItem.wordEnglish} Silinsin Mi?",
                             Snackbar.LENGTH_SHORT
                         ).setAction("EVET",){
-                                // delete
-                                notifyDataSetChanged()
-                            }.show()
+                            wordsDatabase.wordsDao().deleteWord(currentItem)
+                            setData(wordsDatabase.wordsDao().getAllWords())
+                        }.show()
                         true
                     }
                     R.id.actionUpdate -> {
                         showDialog(currentItem)
                         true
                     }
-                    else -> {
-                        false
-                    }
+                    else -> false
                 }
             }
             popupMenu.show()
@@ -72,10 +75,20 @@ class WordsAdapter(private val mContext: Context, private var wordList: ArrayLis
         dialogBinding.button.setText(R.string.update)
 
         dialogBinding.button.setOnClickListener {
-            // update words
+            val english = dialogBinding.editTextEnglish.text.toString()
+            val turkish = dialogBinding.editTextTurkish.text.toString()
+            val word = WordsModel(currentItem.wordId,english,turkish)
+            wordsDatabase.wordsDao().updateWord(word)
+            setData(wordsDatabase.wordsDao().getAllWords())
+            Toast.makeText(mContext,"Güncelleme Başarılı.",Toast.LENGTH_SHORT).show()
+            dialog.cancel()
         }
-
         dialog.show()
+    }
+
+    fun setData(newWordList: List<WordsModel>){
+        this.wordList = newWordList
+        notifyDataSetChanged()
     }
 
 }

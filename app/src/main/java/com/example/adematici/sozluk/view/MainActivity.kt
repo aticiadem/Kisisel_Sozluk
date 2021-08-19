@@ -4,22 +4,23 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.adematici.sozluk.*
 import com.example.adematici.sozluk.adapter.WordsAdapter
+import com.example.adematici.sozluk.database.WordsDatabase
 import com.example.adematici.sozluk.databinding.ActivityMainBinding
 import com.example.adematici.sozluk.databinding.WordUpdateDialogBinding
 import com.example.adematici.sozluk.model.WordsModel
 
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
-    private lateinit var kelimelerListe: ArrayList<WordsModel>
+    private lateinit var wordList: List<WordsModel>
     private lateinit var adapter: WordsAdapter
-    private lateinit var vt: VeritabaniYardimcisi
-
     private lateinit var binding: ActivityMainBinding
+    private lateinit var wordsDatabase: WordsDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,11 +30,15 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         binding.toolbar.title = "Kişisel Sözlük"
         setSupportActionBar(binding.toolbar)
 
+        wordsDatabase = WordsDatabase.getDatabase(this)!!
+
+        wordList = wordsDatabase.wordsDao().getAllWords()
+        adapter = WordsAdapter(this)
+        adapter.setData(wordList)
+
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
-
-        vt = VeritabaniYardimcisi(this)
-        tumKelimeleriAl()
+        binding.recyclerView.adapter = adapter
 
         binding.fab.setOnClickListener {
             showDialog()
@@ -51,11 +56,20 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         dialogBinding.button.setText(R.string.add)
 
         dialogBinding.button.setOnClickListener {
-            // add words
-            //Kelimelerdao().kelimeEkle(vt, kelime_ingilizce, kelime_turkce)
-            //tumKelimeleriAl()
-        }
+            if (dialogBinding.editTextEnglish.text.isNotEmpty()
+                && dialogBinding.editTextTurkish.text.isNotEmpty()){
+                val english = dialogBinding.editTextEnglish.text.toString()
+                val turkish = dialogBinding.editTextTurkish.text.toString()
+                val word = WordsModel(0,wordEnglish = english, wordTurkish = turkish)
+                wordsDatabase.wordsDao().addWord(word)
+                adapter.setData(wordsDatabase.wordsDao().getAllWords())
+                Toast.makeText(this,"Ekleme Başarılı.",Toast.LENGTH_SHORT).show()
 
+                dialog.cancel()
+            } else {
+                Toast.makeText(this,"Boşlukları Doldurun!",Toast.LENGTH_SHORT).show()
+            }
+        }
         dialog.show()
     }
 
@@ -70,25 +84,17 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextSubmit(query: String): Boolean {
-        aramaYap(query)
+        searchWord(query)
         return true
     }
 
     override fun onQueryTextChange(newText: String): Boolean {
-        aramaYap(newText)
+        searchWord(newText)
         return true
     }
 
-    private fun tumKelimeleriAl(){
-        kelimelerListe = Kelimelerdao().tumKelimeler(vt)
-        adapter = WordsAdapter(this, kelimelerListe)
-        binding.recyclerView.adapter = adapter
-    }
-
-    private fun aramaYap(aramaKelime: String){
-        kelimelerListe = Kelimelerdao().kelimeAra(vt, aramaKelime)
-        adapter = WordsAdapter(this, kelimelerListe)
-        binding.recyclerView.adapter = adapter
+    private fun searchWord(word: String){
+        adapter.setData(wordsDatabase.wordsDao().findWord(word))
     }
 
 }
